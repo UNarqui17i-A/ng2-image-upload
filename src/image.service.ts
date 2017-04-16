@@ -17,7 +17,8 @@ export class ImageService {
       let formData: FormData = new FormData();
       let xhr: XMLHttpRequest = new XMLHttpRequest();
 
-      formData.append('image', image);
+      formData.append('uuid','78')
+      formData.append('codedimage', image);
 
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
