@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Header, ImageService} from '../image.service';
+import { UUID } from 'angular2-uuid';
 
 export class FileHolder {
   public serverResponse: { status: number, response: any };
@@ -241,6 +242,9 @@ export class ImageUploadComponent implements OnInit {
   @Output()
   onRemove: EventEmitter<FileHolder> = new EventEmitter<FileHolder>();
 
+  @Output()
+  uuidPhoto: EventEmitter<string> = new EventEmitter<string>();
+
   files: FileHolder[] = [];
   showFileTooLargeMessage: boolean = false;
 
@@ -334,16 +338,17 @@ export class ImageUploadComponent implements OnInit {
       this.pendingFilesCounter++;
       fileHolder.pending = true;
 
-      console.log("File: %s", fileHolder.src)
+      let uuidRequest = UUID.UUID();
 
       this.imageService
-        .postImage(this.url, fileHolder.src, this.headers)
+        .postImage(this.url, fileHolder.src, uuidRequest, this.headers)
         .subscribe(
           response => this.onResponse(response, fileHolder),
           error => {
             this.onResponse(error, fileHolder);
             this.deleteFile(fileHolder);
-          }
+          },
+          () => { this.uuidPhoto.emit(uuidRequest) }
         );
     } else {
       this.onFileUploadFinish.emit(fileHolder);
