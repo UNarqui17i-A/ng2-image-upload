@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
+import { Http, Headers, RequestOptions } from '@angular/http';
 
 export interface Header {
   header: string;
@@ -8,12 +9,20 @@ export interface Header {
 
 @Injectable()
 export class ImageService {
+  constructor(private http: Http){
+
+  }
+  
   public postImage(url: string, image: File, headers?: Header[]) {
     if (!url || url === '') {
       throw new Error('Url is not set! Please set it before doing queries');
     }
+    let headers_ = new Headers({'Content-Type': 'application/json'});
+    let requestOptions = new RequestOptions({headers_: headers});
+    return this.http.post(url, { 'uuid' : '78', 'codedimage': image}, requestOptions)
+      .catch(this.handleError)
 
-    return Observable.create(observer => {
+    /*return Observable.create(observer => {
       let formData: FormData = new FormData();
       let xhr: XMLHttpRequest = new XMLHttpRequest();
 
@@ -38,6 +47,11 @@ export class ImageService {
           xhr.setRequestHeader(header.header, header.value);
 
       xhr.send(formData);
-    });
+    });*/
   }
+  private handleError( error: any ) {
+    let errMsg = (error.message) ? error.message :
+      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+    console.error(errMsg); // log to console instead
+    return Observable.throw(errMsg);
 }
