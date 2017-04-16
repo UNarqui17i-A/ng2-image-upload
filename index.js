@@ -1,1 +1,1 @@
-exports.ImageUploadModule = require('./lib/image-upload.module').ImageUploadModule;
+exports.ImageUploadModule = require('./src/image-upload.module').ImageUploadModule;
