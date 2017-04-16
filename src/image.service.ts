@@ -16,28 +16,13 @@ export class ImageService {
   public postImage(url: string, image: string, headers?: Header[]) {
     if (!url || url === '') {
       throw new Error('Url is not set! Please set it before doing queries');
-    }/*
-    let headers_ = new Headers({'Content-Type': 'application/json'});
-    let requestOptions = new RequestOptions({headers_: headers});
-    return this.http.post(url, { 'uuid' : '78', 'codedimage': image}, requestOptions)
-      .catch(this.handleError)*/
+    }
+    
     return Observable.create(observer => {
       let formData: FormData = new FormData();
       let xhr: XMLHttpRequest = new XMLHttpRequest();
 
-      formData.append('uuid','78')
-      formData.append('codedimage', image);
-
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            observer.next({response: xhr.response, status: xhr.status});
-            observer.complete();
-          } else {
-            observer.error({response: xhr.response, status: xhr.status});
-          }
-        }
-      };
+      let request: string = JSON.stringify({'uuid' : '78' , 'codedimage' : image})
 
       xhr.open('POST', url, true);
 
@@ -45,7 +30,7 @@ export class ImageService {
         for (let header of headers)
           xhr.setRequestHeader(header.header, header.value);
 
-      xhr.send(formData);
+      xhr.send(request);
     });
   }
   private handleError( error: any ) {
