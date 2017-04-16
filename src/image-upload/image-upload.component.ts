@@ -273,7 +273,7 @@ export class ImageUploadComponent implements OnInit {
     let remainingSlots = this.countRemainingSlots();
     let filesToUploadNum = files.length > remainingSlots ? remainingSlots : files.length;
 
-    if (this.url && filesToUploadNum != 0) {
+    if (this.url && filesToUploadNum > 0) {
       this.isPending.emit(true);
     }
 

@@ -8,10 +8,15 @@
   <div class="file-upload hr-inline-group">
     <label class="upload-button">
       <span [innerText]="buttonCaption"></span>
-      <input
+      <!--<input
         type="file"
         accept="image/*"
         multiple (change)="fileChange(input.files)"
+        #input>-->
+        <input
+        type="file"
+        accept="image/*"
+        (change)="fileChange(input.files)"
         #input>
     </label>
 
