@@ -334,6 +334,8 @@ export class ImageUploadComponent implements OnInit {
       this.pendingFilesCounter++;
       fileHolder.pending = true;
 
+      console.log("File: %s", fileHolder.src)
+
       this.imageService
         .postImage(this.url, fileHolder.src, this.headers)
         .subscribe(
