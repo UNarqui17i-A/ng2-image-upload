@@ -299,9 +299,10 @@ export class ImageUploadComponent implements OnInit {
         continue;
       }
 
+      /*
       let img = document.createElement('img');
       img.src = window.URL.createObjectURL(file);
-
+      */
       let reader = new FileReader();
       reader.addEventListener('load', (event: any) => {
         let fileHolder: FileHolder = new FileHolder(event.target.result, file);
@@ -334,7 +335,7 @@ export class ImageUploadComponent implements OnInit {
       fileHolder.pending = true;
 
       this.imageService
-        .postImage(this.url, fileHolder.file, this.headers)
+        .postImage(this.url, fileHolder.src, this.headers)
         .subscribe(
           response => this.onResponse(response, fileHolder),
           error => {
